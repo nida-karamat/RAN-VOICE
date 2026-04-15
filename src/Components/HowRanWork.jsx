@@ -80,7 +80,7 @@ export default function RanVoiceSetup() {
                   animate={{
                     scale: activeStep === step ? 1.18 : 1,
                     backgroundColor:
-                      activeStep === step ? "#2563eb" : "#e5e7eb",
+                      activeStep === step ? "#121ABD" : "#e5e7eb",
                     color: activeStep === step ? "#fff" : "#9ca3af",
                     boxShadow:
                       activeStep === step
@@ -110,10 +110,16 @@ export default function RanVoiceSetup() {
 
           {/* Title + Subtitle */}
           <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-snug mb-4">
-              How <span className="text-blue-600">RanVoice</span> Works
+            <h1
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] font-semibold text-gray-900 leading-snug mb-4"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
+            >
+              How RanVoice<span className="text-[#121ABD]"> {" "} Works</span> 
             </h1>
-            <p className="text-gray-600 text-base sm:text-lg max-w-lg">
+            <p
+              className="text-gray-600 text-base sm:text-lg lg:text-[25px] max-w-lg"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
+            >
               Get your AI voice employee up and running in just three simple
               steps.
             </p>
@@ -129,7 +135,9 @@ export default function RanVoiceSetup() {
             className="flex items-center gap-3 bg-gray-200 hover:bg-gray-400 text-gray-900 px-6 sm:px-7 py-3 sm:py-4 rounded-full shadow-xl transition-all duration-300 group"
             onClick={() => setOpenSetup(true)}
           >
-            <span className="font-medium text-base sm:text-lg">
+            <span className="font-medium text-base sm:text-lg"
+            
+            style={{ fontFamily: "DM Sans, sans-serif" }}>
               Start Your 48-Hour Setup
             </span>
             <motion.div
@@ -139,7 +147,7 @@ export default function RanVoiceSetup() {
                 repeat: Infinity,
                 ease: "easeInOut",
               }}
-              className="w-8 h-8 sm:w-9 sm:h-9 bg-black rounded-full flex items-center justify-center"
+              className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3C3C3C] rounded-full flex items-center justify-center"
             >
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </motion.div>
@@ -181,6 +189,7 @@ export default function RanVoiceSetup() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
               className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3 text-left w-full"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
             >
               {currentCard.title}
             </motion.h2>
@@ -202,10 +211,13 @@ export default function RanVoiceSetup() {
               transition={{ duration: 0.45, delay: 0.25 }}
               className="text-left max-w-md"
             >
-              <h3 className="text-lg font-semibold mb-2 text-gray-800">
+              <h3 className="text-lg font-semibold mb-2 text-gray-800"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
+              >
                 {currentCard.subtitle}
               </h3>
-              <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+              <p className="text-gray-700 leading-relaxed text-sm sm:text-base"
+              style={{ fontFamily: "DM Sans, sans-serif" }}>
                 {currentCard.description}
               </p>
             </motion.div>

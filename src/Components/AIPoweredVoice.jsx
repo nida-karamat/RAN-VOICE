@@ -54,14 +54,16 @@ export default function AIPoweredVoice() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
           viewport={{ once: true }}
-          className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 leading-snug"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-[45px] font-medium text-gray-900 leading-12"
+          style={{ fontFamily: "DM Sans, sans-serif" }}
         >
           Enhance customer experiences with <br />
           <motion.span
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
-            className="text-indigo-600"
+            className="text-indigo-600 font-medium"
+            style={{ fontFamily: "DM Sans, sans-serif" }}
             viewport={{ once: true }}
           >
             AI-powered

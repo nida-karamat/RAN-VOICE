@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { RetellWebClient } from "retell-client-js-sdk";
 import { createRetellWebCall } from "../Services/api.js";
-import CalComModal from "./CalComModal.jsx";
+// import CalComModal from "./CalComModal.jsx";
 
 import avatarImg from "../assets/Images/liza/liza1.webp";
 import logoImg from "../assets/Images/logo.jpg";
@@ -29,11 +29,12 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isCalModalOpen, setIsCalModalOpen] = useState(false);
 
-  const caller = callerProp || {
-    name: "Amara Khan",
-    org: "Acme Corporation",
+  const caller = {
+    name: "",
+    org: "AI VOICE AGENTS",
     avatar: avatarImg,
   };
+  
 
   useEffect(() => {
     if (callState === "active") {
@@ -141,17 +142,17 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
   return (
     <div
       className="
-        max-w-7xl mx-auto p-4 sm:p-6 bg-white rounded-2xl shadow-lg relative
+        max-w-4xl mx-auto p-4 sm:p-6 bg-white rounded-2xl shadow-lg relative
         flex flex-col h-[90vh]
         overflow-hidden lg:overflow-hidden
         overflow-y-auto
       "
     >
-      <header className="flex flex-wrap items-center justify-between px-4 sm:px-8 py-3 border-b border-gray-200 gap-3">
+      <header className="flex flex-wrap items-center justify-between px-4 sm:px-5 py-1">
         <div className="flex items-center gap-2">
-          <img src={logoImg} alt="Logo" className="h-7 sm:h-9" />
+          <img src={logoImg} alt="Logo" className="h-7 sm:h-13" />
         </div>
-        <div className="flex flex-wrap justify-end gap-2 sm:gap-3 relative">
+        <div className="flex flex-wrap justify-end gap-2 sm:gap-3 relative ">
           <button
             onClick={onClose}
             className="text-gray-600 hover:text-gray-900 absolute -top-8 -right-6"
@@ -160,27 +161,29 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
           </button>
         </div>
       </header>
-
+      
       <div
         className="
-          grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6 flex-1
+          grid grid-cols-1 lg:grid-cols-12 mt-6 flex-1
           overflow-hidden lg:overflow-hidden
           overflow-y-auto
         "
       >
         {/* LEFT SECTION */}
-        <div className="lg:col-span-8 flex flex-col items-center text-center h-full min-h-0 pb-4">
+        <div className="lg:col-span-7 flex flex-col items-center text-center h-full min-h-0 pb-4 pr-8">
           <img
             src={caller.avatar}
             alt={caller.name}
-            className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover object-top border-4 border-white shadow-md mt-2"
+            className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover object-top border-4 border-blue-500 shadow-lg shadow-blue-300 mt-2"
           />
-          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-4">
+          {/* <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mt-4">
             {caller.name}
-          </h3>
-          <p className="text-sm text-gray-500">{caller.org}</p>
+          </h3> */}
+          <p className="text-lg font-semibold text-gray-600 mt-5">
+            {caller.org}
+          </p>
 
-          <div className="mt-2 w-full flex-1 flex flex-col gap-2 min-h-0">
+          <div className="mt-4 w-full flex-1 flex flex-col gap-2 min-h-0">
             <div className="space-y-1.5 flex-shrink-0 mt-4">
               <div className="flex flex-wrap justify-center gap-1.5">
                 {[
@@ -190,26 +193,26 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className="bg-gray-200 w-12 h-12 sm:w-14 sm:h-14 rounded-md flex flex-col items-center justify-center"
+                    className="bg-gray-300 w-15 h-15 sm:w-22 sm:h-22 rounded-md flex flex-col items-center justify-center"
                   >
                     <span className="text-sm font-semibold">{item.value}</span>
-                    <span className="text-[10px] text-gray-800">
+                    <span className="text-[10px] text-gray-800 text-center mt-2">
                       {item.label}
                     </span>
                   </div>
                 ))}
               </div>
-              <div className="px-1 mt-3 sm:mt-4">
+              {/* <div className="px-1 mt-3 sm:mt-4">
                 <img
                   src={callimg1}
                   alt="Call Waveform"
                   className="w-full h-14 sm:h-26 object-contain"
                 />
-              </div>
+              </div> */}
 
               {/* show Book a Demo only after call has ended */}
               {callState === "ended" && (
-                <div className="mt-1 flex justify-center">
+                <div className="mt-15 flex justify-center">
                   <button
                     onClick={() => setIsCalModalOpen(true)}
                     className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 active:scale-95 transition-transform shadow-md"
@@ -226,25 +229,25 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
         {/* RIGHT SECTION – MOBILE UI */}
         <div
           className="
-    lg:col-span-4
+    lg:col-span-5
     w-full
-    flex justify-center items-start
+    flex justify-start items-start
     overflow-y-auto lg:overflow-visible
     h-100 lg:h-full
-    pt-4 lg:pt-0
+    pt-4 lg:pt-0   
   "
         >
           <div
             className="
-      w-[330px] max-w-full
-      bg-white rounded-[30px]
-      border-4 border-blue-500
-      overflow-hidden
-      flex flex-col relative
-      shadow-lg shadow-blue-800
-      max-h-[75vh]
-      p-4
-    " 
+    w-[380px] md:w-[440px] lg:w-[480px] max-w-full
+    bg-white rounded-[24px]
+    border-2 border-blue-500
+    overflow-hidden
+    flex flex-col relative
+    shadow-lg shadow-gray-600
+    max-h-[75vh]
+    p-6 
+  "
           >
             {/* TOP BAR */}
             <div className="h-5 flex items-center justify-center px-6 py-3 text-xs text-gray-900">
@@ -491,10 +494,10 @@ const CallScreen = ({ onClose, caller: callerProp }) => {
         </div>
       </div>
 
-      <CalComModal
+      {/* <CalComModal
         isOpen={isCalModalOpen}
         onClose={() => setIsCalModalOpen(false)}
-      />
+      /> */}
     </div>
   );
 };

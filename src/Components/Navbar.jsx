@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/Images/logo.jpg";
 import { scroller } from "react-scroll";
 import { X } from "lucide-react";
-import CalComModal from "./CalComModal";
+import { lazy, Suspense } from "react";
+const CalComModal = lazy(() => import("./CalComModal"));
 
 const navItems = [
   { name: "Industries", id: "industries" },
@@ -74,7 +75,11 @@ const Navbar = () => {
               whileHover={{ scale: 1.05, rotate: [0, 2, -2, 0] }}
               transition={{ type: "tween", stiffness: 200 }}
             >
-              <img src={logo} alt="Logo" className="h-14 w-auto object-contain" />
+              <img
+                src={logo}
+                alt="Logo"
+                className="h-14 w-auto object-contain"
+              />
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -89,7 +94,11 @@ const Navbar = () => {
                   }`}
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.15, ease: "easeOut" }}
+                  transition={{
+                    duration: 0.6,
+                    delay: idx * 0.15,
+                    ease: "easeOut",
+                  }}
                   whileHover={{
                     y: -5,
                     scale: 1.1,
@@ -108,7 +117,10 @@ const Navbar = () => {
             {/* Desktop Try Live Demo Button */}
             <motion.button
               className="hidden lg:flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-2 rounded-full font-medium text-white shadow-lg hover:shadow-xl transition-all"
-              whileHover={{ scale: 1.05, boxShadow: "0px 8px 25px rgba(59,130,246,0.5)" }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0px 8px 25px rgba(59,130,246,0.5)",
+              }}
               onClick={() => setCalModalOpen(true)}
             >
               Let's Talk
@@ -126,10 +138,26 @@ const Navbar = () => {
             </motion.button>
 
             {/* Mobile Hamburger */}
-            <button className="lg:hidden text-gray-700" onClick={() => setMenuOpen(!menuOpen)}>
-              {menuOpen ? <X size={24} /> : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+            <button
+              className="lg:hidden text-gray-700"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? (
+                <X size={24} />
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
               )}
             </button>
@@ -156,7 +184,10 @@ const Navbar = () => {
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="fixed top-0 right-0 h-120 w-60 bg-white z-50 shadow-lg p-6 flex flex-col gap-4 rounded-sm border border-gray-700"
             >
-              <button onClick={() => setMenuOpen(false)} className="self-end text-gray-700 hover:text-gray-900">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="self-end text-gray-700 hover:text-gray-900"
+              >
                 <X size={24} />
               </button>
 
@@ -165,7 +196,9 @@ const Navbar = () => {
                   key={idx}
                   onClick={() => handleScrollTo(item.id)}
                   className={`text-lg font-medium cursor-pointer block w-full text-left px-4 py-2 rounded-md transition-all ${
-                    activeSection === item.id ? "bg-blue-600 text-white" : "text-black hover:bg-blue-100"
+                    activeSection === item.id
+                      ? "bg-blue-600 text-white"
+                      : "text-black hover:bg-blue-100"
                   }`}
                 >
                   {item.name}
@@ -175,13 +208,20 @@ const Navbar = () => {
               <motion.button
                 className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full flex items-center justify-center font-medium shadow transition mt-4"
                 whileHover={{ scale: 1.05 }}
-                onClick={() => { setMenuOpen(false); setCalModalOpen(true); }}
+                onClick={() => {
+                  setMenuOpen(false);
+                  setCalModalOpen(true);
+                }}
               >
                 Let's Talk
                 <motion.span
                   className="ml-2 bg-white text-blue-600 rounded-full p-1 flex items-center justify-center"
                   animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                 >
                   <FaArrowRight className="w-3 h-3" />
                 </motion.span>
@@ -195,7 +235,12 @@ const Navbar = () => {
       <div className={showBanner ? "h-[140px]" : "h-[120px]"}></div>
 
       {/* Cal.com Modal */}
-      <CalComModal isOpen={calModalOpen} onClose={() => setCalModalOpen(false)} />
+      <Suspense >
+        <CalComModal
+          isOpen={calModalOpen}
+          onClose={() => setCalModalOpen(false)}
+        />
+      </Suspense>
     </>
   );
 };

@@ -45,7 +45,10 @@ const BusinessesLove = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold leading-tight text-gray-900">
+            <h1
+              className="text-3xl sm:text-4xl md:text-[45px] font-semibold leading-tight text-gray-900"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
+            >
               Why Businesses Love Our{" "}
               <span className="text-indigo-600">AI Employees</span>
             </h1>
@@ -56,19 +59,23 @@ const BusinessesLove = () => {
             transition={{ duration: 0.7 }}
             className="flex items-start"
           >
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+            <p
+              className="text-base sm:text-[20px] font-medium text-gray-600 leading-relaxed"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
+            >
               Our AI team members handle the work of ten people with unmatched
-              speed, accuracy, and consistency—without breaks, delays, or errors.
+              speed, accuracy, and consistency—without breaks, delays, or
+              errors.
             </p>
           </motion.div>
         </div>
 
         {/* Cards Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
           {features.map((item, index) => (
             <motion.div
               key={item.id}
-              className="relative bg-blue-50 border border-blue-300 rounded-2xl p-6 flex flex-col items-start text-left shadow-md overflow-hidden transition-all duration-300"
+              className="relative bg-blue-50 border border-blue-300 rounded-[33px] p-6 flex flex-col items-start text-left shadow-md overflow-hidden transition-all duration-300"
               whileInView={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 40 }}
               transition={{ delay: index * 0.15, duration: 0.6 }}
@@ -114,7 +121,7 @@ const BusinessesLove = () => {
               />
 
               {/* Number */}
-              <div  className="absolute bottom-[-30px] right-[-30px] w-32 h-32 bg-blue-200 rounded-full opacity-80"></div>
+              <div className="absolute bottom-[-30px] right-[-30px] w-32 h-32 bg-blue-200 rounded-full opacity-80"></div>
               <motion.span
                 className="absolute bottom-6 right-6 text-white font-bold text-4xl select-none"
                 animate={

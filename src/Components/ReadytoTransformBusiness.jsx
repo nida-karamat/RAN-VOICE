@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import laptop from "../assets/Images/laptop.png";
-import CalComModal from "./CalComModal";
+import { lazy, Suspense } from "react";
+const CalComModal = lazy(() => import("./CalComModal"));
 
 export default function ReadyToTransformYourBusiness() {
   const [calModalOpen, setCalModalOpen] = useState(false);
@@ -19,42 +20,59 @@ export default function ReadyToTransformYourBusiness() {
         <motion.div
           className="absolute bottom-0 left-0 w-40 h-40 sm:w-64 sm:h-64 bg-indigo-400 rounded-full opacity-20 blur-3xl pointer-events-none"
           animate={{ y: [0, 25, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
         />
 
-        {/* 🌈 Main Gradient Card */}
+        {/* Main Gradient Card */}
         <div className="bg-gradient-to-br from-blue-900 to-indigo-700 rounded-3xl p-4 sm:p-8 md:p-14 lg:p-16 relative overflow-visible z-10 shadow-xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
             {/* LEFT CONTENT */}
             <motion.div
               className="space-y-8 text-center lg:text-left"
+              style={{ fontFamily: "DM Sans, sans-serif" }}
               initial={{ opacity: 0, x: -80 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1 }}
             >
               <div className="space-y-4">
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                  Ready to Transform Your{" "}
-                  <span className="font-semibold inline">Business With AI?</span>
+                <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-medium   text-white leading-tight">
+                  Ready to Transform Your Business{" "}
+                  <span className="font-semibold inline">With AI?</span>
                 </h1>
-                <p className="text-blue-100 text-base sm:text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-                  Join thousands of companies already using Ran AI to revolutionize
-                  their operations. Start your AI transformation journey today.
+                <p className="text-blue-100 text-base sm:text-lg lg:text-[14px] leading-relaxed max-w-md mx-auto lg:mx-0">
+                  Join thousands of companies already using Ran AI to
+                  revolutionize their operations. Start your AI transformation
+                  journey today.
                 </p>
               </div>
 
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                className="flex mx-auto lg:mx-0 items-center gap-3 bg-white text-blue-600 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg group"
                 onClick={() => setCalModalOpen(true)}
+                className="relative flex mx-auto lg:mx-0 items-center 
+  bg-white text-[#3941E5] px-6 sm:px-8 py-3 
+  rounded-full font-semibold hover:bg-blue-50 transition-all shadow-lg 
+  w-40"
               >
-                Let's Talk
+                <span>Let's Talk</span>
+
                 <motion.div
-                  className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center group-hover:bg-blue-700 transition-colors"
+                  className="absolute right-2 top-1/2 -translate-y-1/2
+    w-8 h-8 bg-[#121ABD] rounded-full flex items-center justify-center 
+    group-hover:bg-blue-700 transition-colors "
                   animate={{ x: [0, 6, 0] }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                  transition={{
+                    duration: 1.2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
                 >
                   <FaArrowRight className="w-4 h-4 text-white" />
                 </motion.div>
@@ -119,7 +137,6 @@ export default function ReadyToTransformYourBusiness() {
                   alt="AI Screen Mockup"
                   whileHover={{ scale: 1.05, rotateY: 5 }}
                   transition={{ type: "spring", stiffness: 120 }}
-                  
                 />
               </motion.div>
             </div>
@@ -128,7 +145,12 @@ export default function ReadyToTransformYourBusiness() {
       </div>
 
       {/* Cal.com Modal */}
-      <CalComModal isOpen={calModalOpen} onClose={() => setCalModalOpen(false)} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CalComModal
+          isOpen={calModalOpen}
+          onClose={() => setCalModalOpen(false)}
+        />
+      </Suspense>
     </div>
   );
 }

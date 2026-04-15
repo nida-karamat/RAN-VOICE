@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
-
 import background from "../assets/Images/background.webp";
-import AIAgentCards from "./AIAgentCards";
-import CalComModal from "./CalComModal";
-import CallScreen from "./CallScreen";
+// import AIAgentCards from "./AIAgentCards";
+// import CalComModal from "./CalComModal";
+// import CallScreen from "./CallScreen";
+
+const AIAgentCards = lazy(() => import("./AIAgentCards"));
+const CalComModal = lazy(() => import("./CalComModal"));
+const CallScreen = lazy(() => import("./CallScreen"));
 
 // ✅ Images imports
 import liza from "../assets/Images/liza.webp";
@@ -100,6 +103,8 @@ const HireAIVoice = () => {
     {}
   );
   const [activeCircle, setActiveCircle] = useState(null);
+  const [gridImgLoaded, setGridImgLoaded] = useState({});
+  const [avatarLoaded, setAvatarLoaded] = useState({});
 
   // Preload small images
   useEffect(() => {
@@ -117,6 +122,23 @@ const HireAIVoice = () => {
       return () => clearTimeout(timer);
     }
   }, [activeIndex]);
+
+  useEffect(() => {
+    const allImportantImages = [
+      ...aiEmployees.map((e) => e.image),
+      ...aiEmployees.map((e) => e.hoverImage),
+    ];
+
+    allImportantImages.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = background;
+  }, []);
 
   const openCallScreen = (employeeIndex = null) => {
     const chosenEmployee =
@@ -180,7 +202,6 @@ const HireAIVoice = () => {
           </h1>
           <span className="flex -space-x-3">
             {[liza1, diego4, ethan2, amina4].map((src, i) => {
-              const [avatarLoading, setAvatarLoading] = useState(true);
               return (
                 <motion.div
                   key={i}
@@ -192,7 +213,7 @@ const HireAIVoice = () => {
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 200, damping: 15 }}
                 >
-                  {avatarLoading && (
+                  {/* {!avatarLoaded[i] && (
                     <div className="absolute inset-0 w-full h-full rounded-full bg-gray-300 overflow-hidden z-10 flex items-center justify-center">
                       <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-shimmer rounded-full" />
                       <style>{`
@@ -206,14 +227,16 @@ const HireAIVoice = () => {
                         }
                       `}</style>
                     </div>
-                  )}
+                  )} */}
                   <motion.img
                     src={src}
                     alt={`avatar-${i}`}
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                     srcSet={`${src} 1x, ${src.replace(
                       /\.(jpg|webp)$/,
-                      "@2x.$1"
+                      "@2x.$1",
                     )} 2x`}
                     className="w-full h-full object-cover transition-transform duration-300"
                     style={{
@@ -225,7 +248,7 @@ const HireAIVoice = () => {
                     whileHover={{
                       filter: "contrast(1.2) saturate(1.1) brightness(1.1)",
                     }}
-                    onLoad={() => setAvatarLoading(false)}
+                    onLoad={() => setAvatarLoaded((s) => ({ ...s, [i]: true }))}
                   />
                 </motion.div>
               );
@@ -317,21 +340,36 @@ const HireAIVoice = () => {
             className="relative rounded-2xl overflow-visible flex flex-col items-center group cursor-pointer aspect-[3/4]"
           >
             {/* Default Image */}
+            {/* {!gridImgLoaded[employee.id]?.default &&
+              !gridImgLoaded[employee.id]?.hover && (
+                <div className="absolute inset-0 w-full h-full rounded-2xl bg-gray-200 z-20 overflow-hidden flex items-center justify-center">
+                  <div className="absolute inset-0 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 animate-shimmer" />
+                  <style>{`@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}} .animate-shimmer{background-size:800px 100%; animation: shimmer 1.2s linear infinite}`}</style>
+                </div>
+              )} */}
             <motion.img
               src={employee.image}
               alt={employee.name}
               loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              onLoad={() =>
+                setGridImgLoaded((s) => ({
+                  ...s,
+                  [employee.id]: { ...(s[employee.id] || {}), default: true },
+                }))
+              }
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                 hoverPreviewByEmployee[employee.id] ||
                 customHoverImageByEmployee[employee.id]
                   ? "opacity-0"
                   : activeIndex === index
-                  ? "opacity-0"
-                  : "group-hover:opacity-0"
+                    ? "opacity-0"
+                    : "group-hover:opacity-0"
               }`}
               srcSet={`${employee.image} 1x, ${employee.image.replace(
                 /\.(jpg|webp)$/,
-                "@2x.$1"
+                "@2x.$1",
               )} 2x`}
             />
 
@@ -344,17 +382,24 @@ const HireAIVoice = () => {
               }
               alt={`${employee.name}-hover`}
               loading="lazy"
+              decoding="async"
+              onLoad={() =>
+                setGridImgLoaded((s) => ({
+                  ...s,
+                  [employee.id]: { ...(s[employee.id] || {}), hover: true },
+                }))
+              }
               srcSet={`${employee.hoverImage} 1x, ${employee.hoverImage.replace(
                 /\.(jpg|webp)$/,
-                "@2x.$1"
+                "@2x.$1",
               )} 2x`}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                 hoverPreviewByEmployee[employee.id] ||
                 customHoverImageByEmployee[employee.id]
                   ? "opacity-100"
                   : activeIndex === index
-                  ? "opacity-100"
-                  : "opacity-0 group-hover:opacity-100"
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
               }`}
             />
 
@@ -421,7 +466,7 @@ const HireAIVoice = () => {
                     loading="lazy"
                     srcSet={`${img} 1x, ${img.replace(
                       /\.(jpg|webp)$/,
-                      "@2x.$1"
+                      "@2x.$1",
                     )} 2x`}
                     className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border-2 border-white object-cover flex-shrink-0 isolate transition-transform duration-200"
                     style={{
@@ -468,17 +513,22 @@ const HireAIVoice = () => {
 
       {/* Popups */}
       <AnimatePresence>
-        {callScreen.show && (
-          <div className="fixed inset-0 z-60 flex items-start justify-center p-6 bg-black/50">
-            <div className="w-full max-w-6xl">
-              <CallScreen
-                caller={callScreen.caller}
-                onClose={() => setCallScreen({ show: false, caller: null })}
-              />
+        <Suspense
+          fallback={
+            <div className="text-white text-center">Loading call...</div>
+          }
+        >
+          {callScreen.show && (
+            <div className="fixed inset-0 z-60 flex items-start justify-center p-6 bg-black/50">
+              <div className="w-full max-w-6xl">
+                <CallScreen
+                  caller={callScreen.caller}
+                  onClose={() => setCallScreen({ show: false, caller: null })}
+                />
+              </div>
             </div>
-          </div>
-        )}
-
+          )}
+        </Suspense>
         {selectedEmployee && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -495,18 +545,22 @@ const HireAIVoice = () => {
               onClick={(e) => e.stopPropagation()}
               className="w-full max-w-4xl my-8"
             >
-              <selectedEmployee.Card
-                onClose={() => setSelectedEmployee(null)}
-              />
+              <Suspense fallback={<div className="text-white">...</div>}>
+                <selectedEmployee.Card
+                  onClose={() => setSelectedEmployee(null)}
+                />
+              </Suspense>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <CalComModal
-        isOpen={calModalOpen}
-        onClose={() => setCalModalOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <CalComModal
+          isOpen={calModalOpen}
+          onClose={() => setCalModalOpen(false)}
+        />
+      </Suspense>
     </motion.section>
   );
 };

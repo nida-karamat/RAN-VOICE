@@ -87,10 +87,17 @@ export default function Integrate() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.6 }}
-          className="text-3xl sm:text-4xl md:text-5xl font-semibold text-gray-900 leading-tight"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-[40px] font-semibold text-gray-900 leading-tight"
+          style={{ fontFamily: "DM Sans, sans-serif" }}
         >
-          Integrate Instantly With Your <br />
-          <span className="gradient-text text-blue-600">Tools</span>
+          Integrate Instantly With <br />
+          Your {" "}
+          <span
+            className="gradient-text font-semibold text-[#121ABD]"
+            style={{ fontFamily: "DM Sans, sans-serif" }}
+          >
+            Tools
+          </span>
         </motion.h2>
 
         <motion.div
@@ -118,7 +125,7 @@ export default function Integrate() {
                 transformStyle: "preserve-3d",
                 perspective: "1000px",
               }}
-              className="relative bg-blue-50 border border-blue-300 rounded-2xl p-6 flex flex-col items-start text-left shadow-md overflow-hidden transition-all duration-300"
+              className="relative bg-blue-50 border border-blue-300 rounded-4xl p-6 flex flex-col items-start text-left shadow-lg overflow-hidden transition-all duration-300"
             >
               {/* Icon */}
               <motion.div
